@@ -26,3 +26,10 @@
   });
 
 })(jQuery); // End of use strict
+
+function baby(){
+  var x = confirm("Trigger warning");
+  if (x == true){
+      document.getElementById('this').setAttribute("class", "nav-link js-scroll-trigger")
+  }
+}
