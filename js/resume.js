@@ -30,6 +30,9 @@
 function baby(){
   var x = confirm("Trigger warning");
   if (x == true){
-      document.getElementById('this').setAttribute("class", "nav-link js-scroll-trigger")
+      document.getElementById('this').setAttribute("class", "js-scroll-trigger")
+  }
+  else {
+    document.getElementById('this').setAttribute("class", "none")
   }
 }
