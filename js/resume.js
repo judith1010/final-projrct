@@ -37,4 +37,20 @@ function baby(){
   }
 }
 
-
+function load(){
+  var api_url = "https://www.reddit.com/search.json?q='skin bleaching'";
+  console.log(api_url);
+  fetch(api_url)
+    .then(function(response){
+      return response.json();
+    })
+    .then(function(json){
+      for (i=0;i<25;i++){
+        console.log(json["data"]["children"][i]["data"]["selftext"]);
+        var x = json["data"]["children"][i]["data"]["selftext"];
+        var red = document.createElement("div");
+        red.innerHTML = x;
+        document.getElementById('idk').innerHTML = x;
+      }
+    })
+}
