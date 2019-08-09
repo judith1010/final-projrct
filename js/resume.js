@@ -156,11 +156,10 @@ fetch(api_url)
         x: result[0],
         y: result[1],
         type: 'bar'
-      // ,
+      //   ,
       //   marker: {
       //     line: {
-      //       color: 'rgb(8,48,107)',
-      //       width: 3
+      //       color: 'rgb(100, 25, 93)'
       // }}
     }];
 
