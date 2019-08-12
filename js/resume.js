@@ -37,23 +37,23 @@ function baby(){
   }
 }
 
-function load(){
-  var api_url = "https://www.reddit.com/search.json?q='skin bleaching'";
-  console.log(api_url);
-  fetch(api_url)
-    .then(function(response){
-      return response.json();
-    })
-    .then(function(json){
-      for (i=0;i<25;i++){
-        console.log(json["data"]["children"][i]["data"]["selftext"]);
-        var x = json["data"]["children"][i]["data"]["selftext"];
-        var red = document.createElement("div");
-        red.innerHTML = x;
-        document.getElementById('idk').innerHTML = x;
-      }
-    })
-}
+// function load(){
+//   var api_url = `https://www.reddit.com/search.json?q='skin bleaching'`;
+//   console.log(api_url);
+//   fetch(api_url)
+//     .then(function(response){
+//       return response.json();
+//     })
+//     .then(function(json){
+//       for (i=0;i<25;i++){
+//         console.log(json["data"]["children"][i]["data"]["selftext"]);
+//         var x = json["data"]["children"][i]["data"]["selftext"];
+//         var red = document.createElement("div");
+//         red.innerHTML = x;
+//         document.getElementById('idk').innerHTML = x;
+//       }
+//     })
+// }
 
 function foo(arr) {
   var a = [], b = [], prev;
@@ -74,6 +74,9 @@ function foo(arr) {
 
 api_key = '0b113d5c-d540-4abe-8fb9-b0b3692e40bd'
 
+queries = ["skin bleaching", "blanchissage de peau", "blanchiment de peau", "blanchissement de peau"]
+var search = 0;
+var len = queries.length
 
 // Get the 'deepai' package here (Compatible with browser & nodejs):
 //     https://www.npmjs.com/package/deepai
@@ -85,108 +88,114 @@ api_key = '0b113d5c-d540-4abe-8fb9-b0b3692e40bd'
 // const deepai = require('deepai'); // OR include deepai.min.js as a script tag in your HTML
 
 
-
-var l = []
-var li = []
-var api_url = "https://www.reddit.com/search.json?q='skin bleaching'";
-// console.log(api_url);
-fetch(api_url)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (json) {
-    // console.log(json);
-    // console.log(json["data"][0]["images"]["fixed_height"]["url"])
-    var v = json["data"]["children"].length
-    for (i = 0; i < v; i++) {
-      // console.log(json["data"]["children"][i]["data"]["selftext"]);
-      var x = json["data"]["children"][i]["data"]["selftext"];
-      l.push(x)
-    }
-    //   console.log(l)
-
-    deepai.setApiKey('0b113d5c-d540-4abe-8fb9-b0b3692e40bd');
-
-    (async function () {
-      var n = json['data']['children'].length
-      var k = 0
-      for (k = 0; k < n; k++) {
-        if (l[k] != "") {
-          var resp = await deepai.callStandardApi("sentiment-analysis", {
-            text: l[k],
-          });
-          var j = resp["output"].length
-          var sum = 0;
-          var i = 0;
-          for (i = 0; i < j; i++) {
-            if (resp["output"][i] == "Negative") {
-              var a = -1
-              // console.log(a)
-              sum += a
-            }
-            if (resp["output"][i] == "Positive") {
-              var a = 1
-              // console.log(a)
-              sum += a
-            }
-            if (resp["output"][i] == "Neutral") {
-              var a = 0
-              // console.log(a)
-              sum += a
-            }
-          }
-          // console.log(j)
-          // console.log(sum)
-          var avg_sent = sum / j
-          console.log(avg_sent)
-          li.push(avg_sent)
-        }
-
-
-
-        // console.log(resp);
-        // console.log(resp["output"][0])
-
+// for (search = 0; search < len; search++){
+  // console.log(search)
+  var l = []
+  var li = []
+  var api_url = `https://www.reddit.com/search.json?q='skin bleaching'`;
+  // var api_url2 = "https://www.reddit.com/search.json?q='blanchissage de peau'"
+  // var api_url = `https://www.reddit.com/search.json?q=${queries[search]}`;
+  // console.log(api_url);
+  fetch(api_url)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (json) {
+      // console.log(json);
+      // console.log(json["data"][0]["images"]["fixed_height"]["url"])
+      var v = json["data"]["children"].length
+      for (i = 0; i < v; i++) {
+        // console.log(json["data"]["children"][i]["data"]["selftext"]);
+        var x = json["data"]["children"][i]["data"]["selftext"];
+        l.push(x)
       }
-      // console.log(li)
-      var result = foo(li);
-      // console.log(result[0])
+      //   console.log(l)
 
-      var data = [{
-        x: result[0],
-        y: result[1],
-        type: 'bar'
-      //   ,
-      //   marker: {
-      //     line: {
-      //       color: 'rgb(100, 25, 93)'
-      // }}
-    }];
+      deepai.setApiKey('0b113d5c-d540-4abe-8fb9-b0b3692e40bd');
 
-      var layout = {
-        title: 'Sentiment Analysis of Reddit Posts About Skin Bleaching',
-        font:{
-          family: 'Raleway, sans-serif'
-        },
-        color: 'blue',
-        showlegend: false,
-        xaxis: {
-          tickangle: -45
-        },
-        yaxis: {
-          zeroline: true,
-          gridwidth: 2
-        },
-        bargap :0.25
-      };
-      
-      Plotly.newPlot('myDiv', data, layout);
+      (async function () {
+        var n = json['data']['children'].length
+        var k = 0
+        for (k = 0; k < n; k++) {
+          if (l[k] != "") {
+            var resp = await deepai.callStandardApi("sentiment-analysis", {
+              text: l[k],
+            });
+            var j = resp["output"].length
+            var sum = 0;
+            var i = 0;
+            for (i = 0; i < j; i++) {
+              if (resp["output"][i] == "Negative") {
+                var a = -1
+                // console.log(a)
+                sum += a
+              }
+              if (resp["output"][i] == "Positive") {
+                var a = 1
+                // console.log(a)
+                sum += a
+              }
+              if (resp["output"][i] == "Neutral") {
+                var a = 0
+                // console.log(a)
+                sum += a
+              }
+            }
+            // console.log(j)
+            // console.log(sum)
+            var avg_sent = sum / j
+            console.log(avg_sent)
+            li.push(avg_sent)
+          }
 
-    })()
 
-    // console.log(json["data"]["children"])
 
-    // console.log(json.length)
-    //   img.src=json["data"][0]["images"]["fixed_height"]["url"];
-    //   document.body.appendChild(img)
-  })
+          // console.log(resp);
+          // console.log(resp["output"][0])
+
+        }
+        // console.log(li)
+        var result = foo(li);
+        // console.log(result[0])
+
+        var data = [{
+          x: result[0],
+          y: result[1],
+          type: 'bar'
+        //   ,
+        //   marker: {
+        //     line: {
+        //       color: 'rgb(100, 25, 93)'
+        // }}
+      }];
+
+        var layout = {
+          title: 'Sentiment Analysis of Reddit Posts About Skin Bleaching',
+          font:{
+            family: 'Raleway, sans-serif'
+          },
+          color: 'blue',
+          showlegend: false,
+          xaxis: {
+            tickangle: -45
+          },
+          yaxis: {
+            zeroline: true,
+            gridwidth: 2
+          },
+          bargap :0.25
+        };
+
+        Plotly.newPlot(`myDiv`, data, layout);
+        // Plotly.newPlot(`myDiv${search}`, data, layout);
+
+      })()
+
+      // console.log(json["data"]["children"])
+
+      // console.log(json.length)
+      //   img.src=json["data"][0]["images"]["fixed_height"]["url"];
+      //   document.body.appendChild(img)
+    })
+
+// }
